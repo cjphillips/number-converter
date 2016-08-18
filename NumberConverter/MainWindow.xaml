@@ -1,0 +1,104 @@
+﻿<Window x:Class="NumberConverter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:numberConverter="clr-namespace:NumberConverter"
+        Title="Number Converter" 
+        Height="200" Width="400" ResizeMode="CanMinimize"
+        Icon="pack://application:,,,/Images/convert.png"
+        WindowStartupLocation="CenterScreen" Topmost="True">
+
+  <Window.Resources>
+    <ObjectDataProvider MethodName="GetValues"
+                      ObjectType="{x:Type sys:Enum}"
+                      x:Key="NumberFormat">
+      <ObjectDataProvider.MethodParameters>
+        <x:Type TypeName="numberConverter:NumberFormat"/>
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+  </Window.Resources>
+  <Window.Background>
+    <RadialGradientBrush>
+      <GradientStop Color="Black"/>
+      <GradientStop Color="#FFC3BCBC" Offset="1"/>
+      <GradientStop Color="#FF838485"/>
+    </RadialGradientBrush>
+  </Window.Background>
+
+  <Grid>
+    <!--Grid Definitions-->
+    <Grid.RowDefinitions>
+      <RowDefinition Height="20"/>
+      <RowDefinition Height="75"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+
+    <!--Combo boxes-->
+    <StackPanel Grid.Row="1" Grid.Column="0">
+      <Label Content="From:" 
+           HorizontalAlignment="Center" VerticalAlignment="Center"
+           Margin="0,10,130,0"/>
+      <ComboBox Name="SourceTypeComboBox"
+             HorizontalAlignment="Center" VerticalAlignment="Bottom"
+             Height="25" Width="170"
+             Margin="0,0,0,20"
+             ItemsSource="{Binding Source={StaticResource NumberFormat}}"
+             SelectedIndex="2"
+             SelectionChanged="SourceTypeComboBox_OnSelectionChanged">
+      </ComboBox>
+    </StackPanel>
+    <StackPanel Grid.Row="1" Grid.Column="1">
+      <Label Content="To:"
+           HorizontalAlignment="Center" VerticalAlignment="Center"
+           Margin="0,10,150,0"/>
+      <ComboBox Name="DestinationTypeComboBox"
+             HorizontalAlignment="Center" VerticalAlignment="Bottom"
+             Height="25" Width="170"
+             Margin="0,0,0,20"
+             ItemsSource="{Binding Source={StaticResource NumberFormat}}"
+             SelectedIndex="3"
+             SelectionChanged="DestinationTypeComboBox_OnSelectionChanged">
+      </ComboBox>
+    </StackPanel>
+
+    <!--Input text boxes-->
+    <TextBox Name="SourceTextBox"
+             Grid.Row="2" Grid.Column="0"
+             HorizontalAlignment="Center" VerticalAlignment="Center"
+             Width="150"
+             Margin="0,0,0,25"
+             TextChanged="SourceTextBox_OnTextChanged"/>
+    <TextBox Name="DestinationTextBox"
+             Grid.Row="2" Grid.Column="1"
+             HorizontalAlignment="Center" VerticalAlignment="Center"
+             Width="150"
+             Margin="0,0,0,25"
+             IsReadOnly="True"/>
+
+    <!--Menu-->
+    <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+      <Menu DockPanel.Dock="Top">
+        <MenuItem Header="_Preferences">
+          <MenuItem Name="ShowPrefixesMenuItem" Header="Show Prefixes" IsCheckable="True" IsChecked="True"
+                    Click="ShowPrefixesMenuItem_OnClick"
+                    StaysOpenOnClick="True"/>
+          <MenuItem Name="UppercaseHex" Header="Uppercase Hex Letters" IsCheckable="True" IsChecked="True"
+                    Click="UppercaseHexMenuItem_OnClick"
+                    StaysOpenOnClick="True"/>
+        </MenuItem>
+      </Menu>
+    </DockPanel>
+    
+    <!--Warning Label-->
+    <Label Name="WarningLabel"
+           Content=""
+           Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+           HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+           Foreground="Crimson"
+           Margin="20,0,0,0"/>
+  </Grid>
+</Window>
